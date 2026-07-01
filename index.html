@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Venkateswara Swamy Temple, Nallacheruvu</title>
+    <meta name="description"
+        content="Official website for booking darshan, kalyanam tickets, and viewing temple gallery.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Identity Services client library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-om"></i> <span data-translate="nav-logo">Sri Venkateswara Swamy Temple</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home" data-translate="nav-home">Home</a></li>
+                    <li><a href="#darshan" class="booking-link" data-translate="nav-darshan">Darshan</a></li>
+                    <li><a href="#kalyanam" class="booking-link" data-translate="nav-kalyanam">Kalyanam</a></li>
+                    <li><a href="#marriage" class="booking-link" data-translate="nav-marriage">Marriage</a></li>
+                    <li><a href="#annadanam" class="booking-link" data-translate="nav-annadanam">Annadanam</a></li>
+                    <li><a href="#gallery" data-translate="nav-gallery">Gallery</a></li>
+                    <li><a href="#social" data-translate="nav-social">Connect</a></li>
+                    <li><a href="admin.html" id="navDashboardLink" style="display: none;"
+                            data-translate="nav-dashboard">Dashboard</a></li>
+                    <!-- Devotee / User Profile Dropdown -->
+                    <li id="navProfileDropdownContainer" class="nav-profile-dropdown" style="position: relative;">
+                        <!-- Logged In User Button -->
+                        <button id="navProfileDropdownBtn" class="btn-profile-dropdown" style="display: none; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; padding: 5px;">
+                            <img id="navAvatar" src="https://via.placeholder.com/150?text=Avatar" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover;">
+                            <span id="navDevoteeName" style="color: #fff; font-weight: 600; font-size: 0.95rem; font-family: var(--font-body);">Devotee</span>
+                            <i class="fa-solid fa-chevron-down" style="color: var(--accent-color); font-size: 0.8rem;"></i>
+                        </button>
+                        
+                        <!-- Logged Out Guest Button -->
+                        <button id="navProfileGuestBtn" class="btn-profile-dropdown" style="display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; padding: 5px;">
+                            <div class="guest-avatar-icon" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); color: #fff;">
+                                <i class="fa-solid fa-user" style="font-size: 0.95rem;"></i>
+                            </div>
+                            <span style="color: #fff; font-weight: 500; font-size: 0.95rem; font-family: var(--font-body);" data-translate="nav-login">Login</span>
+                            <i class="fa-solid fa-chevron-down" style="color: rgba(255,255,255,0.6); font-size: 0.8rem;"></i>
+                        </button>
+                        
+                        <!-- Unified Profile Dropdown Menu -->
+                        <ul class="profile-dropdown-menu" id="profileDropdownMenu" style="display: none; position: absolute; right: 0; top: 100%; background: #ffffff; min-width: 220px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); border-radius: 12px; padding: 12px 0; margin-top: 10px; z-index: 1000; border: 1px solid #eee; list-style: none;">
+                            <!-- Logged In Options -->
+                            <div id="profileDropdownLoggedInOpts" style="display: none;">
+                                <div style="padding: 5px 15px 10px 15px; border-bottom: 1px solid #eee; margin-bottom: 5px;">
+                                    <div style="font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: 600;">Devotee Account</div>
+                                    <div id="profileDropdownUserEmail" style="font-size: 0.85rem; font-weight: 500; color: #333; word-break: break-all; margin-top: 2px;">devotee@example.com</div>
+                                </div>
+                                <li style="margin: 0;"><a href="#profile" id="menuMyProfile" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: #444; font-size: 0.9rem; text-decoration: none; font-weight: 500; transition: background 0.3s;"><i class="fa-regular fa-user" style="color: var(--primary-color); width: 16px;"></i> My Profile</a></li>
+                                <li style="margin: 0;"><a href="#profile" id="menuMyBookings" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: #444; font-size: 0.9rem; text-decoration: none; font-weight: 500; transition: background 0.3s;"><i class="fa-regular fa-calendar-check" style="color: var(--primary-color); width: 16px;"></i> My Bookings</a></li>
+                                <li style="margin: 0;"><a href="#profile" id="menuMyDonations" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: #444; font-size: 0.9rem; text-decoration: none; font-weight: 500; transition: background 0.3s;"><i class="fa-solid fa-hand-holding-heart" style="color: var(--primary-color); width: 16px;"></i> My Donations</a></li>
+                                <li style="border-top: 1px solid #eee; margin: 5px 0 0 0; padding-top: 5px;"><a href="#" id="menuLogout" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: #d32f2f; font-size: 0.9rem; text-decoration: none; font-weight: 500; transition: background 0.3s;"><i class="fa-solid fa-arrow-right-from-bracket" style="width: 16px;"></i> Logout</a></li>
+                            </div>
+                            
+                            <!-- Logged Out Options -->
+                            <div id="profileDropdownLoggedOutOpts" style="display: block; padding: 12px 15px; text-align: center;">
+                                <div style="font-size: 0.82rem; color: #666; margin-bottom: 12px; line-height: 1.4;">Sign in to check bookings, donations, and update profile details.</div>
+                                
+                                <!-- Direct Google Login Button -->
+                                <div id="dropdownGoogleBtnContainer" style="margin-bottom: 10px; width: 100%;"></div>
+                                
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin: 8px 0; color: #aaa; font-size: 0.72rem;">
+                                    <span style="flex-grow: 1; height: 1px; background: #eee;"></span>
+                                    <span>OR</span>
+                                    <span style="flex-grow: 1; height: 1px; background: #eee;"></span>
+                                </div>
+                                
+                                <button id="dropdownLoginBtn" class="btn btn-secondary btn-full" style="padding: 8px 15px; font-size: 0.9rem; width: 100%; border-radius: 6px; cursor: pointer; font-weight: 600; background: none; border: 1px solid #ddd; color: #555; transition: all 0.3s;">Sign In with Email OTP</button>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="lang-selector-container">
+                        <select id="langSelect" class="lang-select">
+                            <option value="en">English</option>
+                            <option value="te">తెలుగు</option>
+                            <option value="hi">हिन्दी</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main View Wrappers for SPA routing -->
+    <div id="home-view">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="fade-in-up" data-translate="hero-title">Experience the Divine Grace</h1>
+            <p class="fade-in-up delay-1" data-translate="hero-subtitle">Welcome to the sacred abode. Book your darshan
+                and special poojas online.</p>
+            <div class="hero-buttons fade-in-up delay-2">
+                <a href="#darshan" class="btn btn-primary booking-link" data-translate="hero-btn-darshan">Book
+                    Darshan</a>
+                <a href="#kalyanam" class="btn btn-secondary booking-link" data-translate="hero-btn-kalyanam">Kalyanam
+                    Tickets</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Booking Status Board -->
+    <section id="status-board" class="status-section">
+        <div class="container">
+            <div class="status-board-card">
+                <div class="status-header">
+                    <div class="live-dot"></div>
+                    <h3>Live Darshan & Seva Booking Status</h3>
+                </div>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-label">Sarva Darshanam (Free)</span>
+                        <div class="status-value-wrapper">
+                            <span class="status-badge status-normal" id="status-sarva">Normal (2-3 hrs)</span>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Special Entry Darshan (₹300)</span>
+                        <div class="status-value-wrapper">
+                            <span class="status-badge status-available" id="status-special">Available (142 slots)</span>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Kalyanam Seva Booking</span>
+                        <div class="status-value-wrapper">
+                            <span class="status-badge status-limited" id="status-kalyanam">Limited (8 slots)</span>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Accommodation Booking</span>
+                        <div class="status-value-wrapper">
+                            <span class="status-badge status-available" id="status-accommodation">Available (45 rooms)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seva Timings & Schedule Section -->
+    <section id="timings" class="section timings-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Daily Seva Timings & Schedule</h2>
+                <div class="divider"></div>
+                <p>Follow the daily rituals and seva timings of Lord Sri Venkateswara Swamy.</p>
+            </div>
+            <div class="timings-container">
+                <div class="timings-table-wrapper">
+                    <table class="timings-table">
+                        <thead>
+                            <tr>
+                                <th>Seva Name</th>
+                                <th>Reporting Time</th>
+                                <th>Seva Time</th>
+                                <th>Type / Frequency</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="seva-name"><i class="fa-solid fa-bell"></i> Suprabhatam</td>
+                                <td>02:30 AM</td>
+                                <td>03:00 AM - 03:30 AM</td>
+                                <td>Daily Seva</td>
+                                <td class="price">₹120</td>
+                            </tr>
+                            <tr>
+                                <td class="seva-name"><i class="fa-solid fa-sun"></i> Thomala Seva</td>
+                                <td>03:00 AM</td>
+                                <td>03:30 AM - 04:00 AM</td>
+                                <td>Daily Seva</td>
+                                <td class="price">₹250</td>
+                            </tr>
+                            <tr>
+                                <td class="seva-name"><i class="fa-solid fa-hands-praying"></i> Sahasranama Archana</td>
+                                <td>04:00 AM</td>
+                                <td>04:30 AM - 05:00 AM</td>
+                                <td>Daily Seva</td>
+                                <td class="price">₹200</td>
+                            </tr>
+                            <tr>
+                                <td class="seva-name"><i class="fa-solid fa-ring"></i> Kalyanotsavam</td>
+                                <td>11:00 AM</td>
+                                <td>12:00 PM - 01:00 PM</td>
+                                <td>Daily / Special Bookings</td>
+                                <td class="price">₹1000</td>
+                            </tr>
+                            <tr>
+                                <td class="seva-name"><i class="fa-solid fa-ticket"></i> Sarva Darshanam</td>
+                                <td>Ongoing</td>
+                                <td>07:00 AM - 09:00 PM</td>
+                                <td>Daily (Free Walk-in)</td>
+                                <td class="price free">Free</td>
+                            </tr>
+                            <tr>
+                                <td class="seva-name"><i class="fa-solid fa-crown"></i> VIP Break Darshan</td>
+                                <td>05:30 AM</td>
+                                <td>06:00 AM - 07:00 AM</td>
+                                <td>Daily (Prior booking recommended)</td>
+                                <td class="price vip">₹500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Devotional Audio Section -->
+    <section id="devotional-audio" class="section audio-section bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Venkateswara Devotional Chants</h2>
+                <div class="divider"></div>
+                <p>Listen to divine slokas and suprabhatam to experience peace and positive vibes.</p>
+            </div>
+            
+            <div class="audio-player-card">
+                <div class="audio-player-visualizer" id="visualizer-container">
+                    <div class="visualizer-bar bar1"></div>
+                    <div class="visualizer-bar bar2"></div>
+                    <div class="visualizer-bar bar3"></div>
+                    <div class="visualizer-bar bar4"></div>
+                    <div class="visualizer-bar bar5"></div>
+                    <div class="visualizer-bar bar6"></div>
+                    <div class="visualizer-bar bar7"></div>
+                    <div class="visualizer-bar bar8"></div>
+                    <div class="visualizer-bar bar9"></div>
+                    <div class="visualizer-bar bar10"></div>
+                </div>
+                
+                <div class="audio-info">
+                    <div class="audio-thumb">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div class="audio-details">
+                        <h4 id="audio-title">Sri Venkateswara Suprabhatam</h4>
+                        <p id="audio-artist">Traditional Temple Chanting</p>
+                    </div>
+                </div>
+
+                <!-- Hidden audio element -->
+                <audio id="main-audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="metadata"></audio>
+
+                <div class="audio-controls-wrapper">
+                    <div class="audio-time">
+                        <span id="current-time">0:00</span>
+                        <span id="duration-time">0:00</span>
+                    </div>
+                    <div class="audio-progress-bar" id="progress-container">
+                        <div class="audio-progress" id="progress-bar"></div>
+                    </div>
+                    <div class="audio-buttons">
+                        <button class="audio-btn" id="prev-btn"><i class="fa-solid fa-backward-step"></i></button>
+                        <button class="audio-btn play-pause-btn" id="play-btn"><i class="fa-solid fa-play"></i></button>
+                        <button class="audio-btn" id="next-btn"><i class="fa-solid fa-forward-step"></i></button>
+                        <div class="audio-volume-control">
+                            <button class="audio-btn" id="volume-btn"><i class="fa-solid fa-volume-high"></i></button>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.8" class="volume-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="audio-playlist">
+                    <h5>Select Devotional Track</h5>
+                    <ul class="playlist-items">
+                        <li class="playlist-item active" data-src="assets/om_namo_venkatesaya.m4r" data-title="Om Namo Venkatesaya Chant" data-artist="Traditional Temple Chanting">
+                            <span class="track-number">01</span>
+                            <span class="track-name">Om Namo Venkatesaya Chant</span>
+                            <span class="track-duration">Divine Chants</span>
+                        </li>
+                        <li class="playlist-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" data-title="Venkateswara Sahasranamam" data-artist="Giri Sanskrit Academy">
+                            <span class="track-number">02</span>
+                            <span class="track-name">Venkateswara Sahasranamam</span>
+                            <span class="track-duration">Daily Stotram</span>
+                        </li>
+                        <li class="playlist-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" data-title="Govinda Namavali Chanting" data-artist="Devotional Choir">
+                            <span class="track-number">03</span>
+                            <span class="track-name">Govinda Namavali Chanting</span>
+                            <span class="track-duration">Namavali Bhajan</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 data-translate="gallery-title">Temple Gallery</h2>
+                <div class="divider"></div>
+                <p data-translate="gallery-subtitle">A glimpse into the divine architecture and vibrant festivals.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item large-span">
+                    <img src="https://images.unsplash.com/photo-1608958416715-4fe055b8ef6c?auto=format&fit=crop&w=1200&q=80"
+                        alt="Temple Gopuram" class="placeholder-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title" data-translate="gallery-t1">Majestic Gopuram</h3>
+                        <p class="gallery-desc" data-translate="gallery-d1">The grand entrance tower representing
+                            spiritual heights and exquisite architecture.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80"
+                        alt="Sacred Bells" class="placeholder-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title" data-translate="gallery-t2">Sacred Bells</h3>
+                        <p class="gallery-desc" data-translate="gallery-d2">Ringing bells inside the temple to welcome
+                            devotees and purify the environment.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1609137144814-7e045bc90060?auto=format&fit=crop&w=800&q=80"
+                        alt="Holy Pooja Rituals" class="placeholder-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title" data-translate="gallery-t3">Holy Pooja Rituals</h3>
+                        <p class="gallery-desc" data-translate="gallery-d3">Daily rituals and Sevas performed with
+                            devotion, flowers, and chants.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1600100397608-f010e42295fa?auto=format&fit=crop&w=800&q=80"
+                        alt="Golden Sanctum" class="placeholder-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title" data-translate="gallery-t4">Golden Sanctum</h3>
+                        <p class="gallery-desc" data-translate="gallery-d4">The sacred inner sanctum where the Lord
+                            resides, radiating peace and grace.</p>
+                    </div>
+                </div>
+                <div class="gallery-item large-span">
+                    <img src="https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=1200&q=80"
+                        alt="Temple Festivals" class="placeholder-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title" data-translate="gallery-t5">Temple Festivals</h3>
+                        <p class="gallery-desc" data-translate="gallery-d5">Grand annual festivals filled with colorful
+                            decorations, music, and divine energy.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1561361531-99522c548d0d?auto=format&fit=crop&w=800&q=80"
+                        alt="Sacred Oil Lamps" class="placeholder-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title" data-translate="gallery-t6">Sacred Oil Lamps</h3>
+                        <p class="gallery-desc" data-translate="gallery-d6">Oil lamps illuminating the temple paths,
+                            symbolizing victory of light over darkness.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section id="social" class="section social-section">
+        <div class="container text-center">
+            <h2 data-translate="connect-title">Stay Connected</h2>
+            <div class="divider"></div>
+            <p data-translate="connect-subtitle">Follow our official social media pages for daily updates, live darshan,
+                and spiritual discourses.</p>
+
+            <div class="social-cards">
+                <a href="https://instagram.com/nallacheruvu.venkateswaraswamy" class="social-card instagram"
+                    target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                    <h3 data-translate="c-card-ig-lbl">Instagram</h3>
+                    <p>@nallacheruvu.venkateswaraswamy</p>
+                    <span class="btn-outline" data-translate="c-btn-follow">Follow Us</span>
+                </a>
+
+                <a href="https://youtube.com/@VenkateswaraswamyNallacheruvu" class="social-card youtube"
+                    target="_blank">
+                    <i class="fa-brands fa-youtube"></i>
+                    <h3 data-translate="c-card-yt-lbl">YouTube</h3>
+                    <p data-translate="c-card-yt-sub">Live Poojas & Videos</p>
+                    <span class="btn-outline" data-translate="c-btn-sub">Subscribe</span>
+                </a>
+
+                <a href="https://facebook.com/profile.php?id=100076157492442" class="social-card facebook"
+                    target="_blank">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <h3 data-translate="c-card-fb-lbl">Facebook</h3>
+                    <p data-translate="c-card-fb-sub">Community & Events</p>
+                    <span class="btn-outline" data-translate="c-btn-like">Like Page</span>
+                </a>
+
+                <a href="https://wa.me/" class="social-card whatsapp" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <h3 data-translate="c-card-wa-lbl">WhatsApp</h3>
+                    <p data-translate="c-card-wa-sub">Contact Us</p>
+                    <span class="btn-outline" data-translate="c-btn-msg">Message</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    </div> <!-- End of home-view -->
+
+    <!-- Profile View Section -->
+    <div id="profile-view" style="display: none;">
+        <!-- Devotee Dashboard Section -->
+        <section id="devotee-dashboard" class="section bg-light" style="display: block;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 data-translate="devotee-title">Devotee Profile & Booking Dashboard</h2>
+                <div class="divider"></div>
+                <p data-translate="devotee-subtitle">Manage your devotional details, view active bookings, and donation logs.</p>
+            </div>
+
+            <div class="dashboard-grid devotee-grid" style="display: grid; grid-template-columns: 350px 1fr; gap: 30px;">
+                
+                <!-- Left Panel: Devotee Profile Card & Details Form -->
+                <div class="profile-left-column">
+                    <!-- Devotee Profile Details Card -->
+                    <div class="dashboard-card devotee-profile-card" style="text-align: center; padding: 25px; margin-bottom: 25px; border-top: 5px solid var(--secondary-color);">
+                        <div class="devotee-avatar-wrapper" style="position: relative; display: inline-block; margin-bottom: 15px;">
+                            <img id="devoteeAvatar" src="https://via.placeholder.com/150?text=Avatar" alt="Devotee Avatar"
+                                style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-color);">
+                        </div>
+                        <h3 id="devoteeNameDisplay" style="border: none; padding: 0; margin-bottom: 5px; font-size: 1.45rem; color: var(--text-dark); font-family: var(--font-heading);">Devotee Name</h3>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <i class="fa-regular fa-envelope" style="color: var(--primary-color);"></i> <span id="devoteeEmail">devotee@example.com</span>
+                        </p>
+                        <span id="devoteeLoginType" style="text-transform: uppercase; font-size: 0.78rem; font-weight: 700; background-color: #fff3e0; color: #ef6c00; padding: 4px 10px; border-radius: 50px; display: inline-block; border: 1px solid rgba(239, 108, 0, 0.15);">Email OTP</span>
+                    </div>
+
+                    <!-- Profile Edit Form -->
+                    <div class="dashboard-card devotee-details-form-card" style="border-top: 5px solid var(--primary-color); padding: 25px;">
+                        <h4 style="font-family: var(--font-heading); color: var(--primary-dark); margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Devotional Details</h4>
+                        <form id="profileDetailsForm" class="booking-form">
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="profile-name" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Full Name</label>
+                                <input type="text" id="profile-name" required placeholder="Enter full name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="profile-phone" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Contact Number</label>
+                                <input type="tel" id="profile-phone" placeholder="Enter contact number" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="profile-gotram" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Gotram</label>
+                                <input type="text" id="profile-gotram" placeholder="Enter Gotram (e.g. Bharadwaja)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="profile-nakshatram" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Nakshatram</label>
+                                <select id="profile-nakshatram" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff;">
+                                    <option value="">Select Nakshatram</option>
+                                    <option value="Ashwini">Ashwini</option>
+                                    <option value="Bharani">Bharani</option>
+                                    <option value="Krittika">Krittika</option>
+                                    <option value="Rohini">Rohini</option>
+                                    <option value="Mrigashira">Mrigashira</option>
+                                    <option value="Ardra">Ardra</option>
+                                    <option value="Punarvasu">Punarvasu</option>
+                                    <option value="Pushya">Pushya</option>
+                                    <option value="Ashlesha">Ashlesha</option>
+                                    <option value="Magha">Magha</option>
+                                    <option value="Purva Phalguni">Purva Phalguni</option>
+                                    <option value="Uttara Phalguni">Uttara Phalguni</option>
+                                    <option value="Hasta">Hasta</option>
+                                    <option value="Chitra">Chitra</option>
+                                    <option value="Swati">Swati</option>
+                                    <option value="Vishakha">Vishakha</option>
+                                    <option value="Anuradha">Anuradha</option>
+                                    <option value="Jyeshtha">Jyeshtha</option>
+                                    <option value="Mula">Mula</option>
+                                    <option value="Purva Ashadha">Purva Ashadha</option>
+                                    <option value="Uttara Ashadha">Uttara Ashadha</option>
+                                    <option value="Shravana">Shravana</option>
+                                    <option value="Dhanishta">Dhanishta</option>
+                                    <option value="Shatabhisha">Shatabhisha</option>
+                                    <option value="Purva Bhadrapada">Purva Bhadrapada</option>
+                                    <option value="Uttara Bhadrapada">Uttara Bhadrapada</option>
+                                    <option value="Revati">Revati</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="profile-rasi" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Rasi (Zodiac)</label>
+                                <select id="profile-rasi" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff;">
+                                    <option value="">Select Rasi</option>
+                                    <option value="Mesha">Mesha (Aries)</option>
+                                    <option value="Vrishabha">Vrishabha (Taurus)</option>
+                                    <option value="Mithuna">Mithuna (Gemini)</option>
+                                    <option value="Karka">Karka (Cancer)</option>
+                                    <option value="Simha">Simha (Leo)</option>
+                                    <option value="Kanya">Kanya (Virgo)</option>
+                                    <option value="Tula">Tula (Libra)</option>
+                                    <option value="Vrishchika">Vrishchika (Scorpio)</option>
+                                    <option value="Dhanu">Dhanu (Sagittarius)</option>
+                                    <option value="Makara">Makara (Capricorn)</option>
+                                    <option value="Kumbha">Kumbha (Aquarius)</option>
+                                    <option value="Meena">Meena (Pisces)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="profile-address" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Residential Address</label>
+                                <textarea id="profile-address" rows="2" placeholder="Enter address" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; resize: vertical;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full" id="profileUpdateBtn" style="margin-top: 10px;">Update Details</button>
+                            <div class="form-message" id="profileMessage" style="margin-top: 10px; display: none;"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Tabs for Bookings and Donations -->
+                <div class="profile-right-column">
+                    <div class="dashboard-card bookings-card" style="border-top-color: var(--primary-color); height: 100%; padding: 30px;">
+                        <div class="profile-tabs-header" style="display: flex; gap: 15px; border-bottom: 2px solid #eee; margin-bottom: 20px;">
+                            <button class="profile-tab-btn active" data-profile-tab="bookings" style="background: none; border: none; padding: 10px 15px; font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; cursor: pointer; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s;">My Bookings</button>
+                            <button class="profile-tab-btn" data-profile-tab="donations" style="background: none; border: none; padding: 10px 15px; font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; cursor: pointer; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s;">My Donations</button>
+                        </div>
+
+                        <!-- Bookings Tab Content -->
+                        <div class="profile-tab-content" id="profileTabBookings">
+                            <h3 style="font-family: var(--font-heading); color: var(--primary-dark); font-size: 1.3rem; margin-bottom: 15px;">Your Registered Visits</h3>
+                            <div class="table-responsive">
+                                <table class="bookings-table">
+                                    <thead>
+                                        <tr>
+                                            <th data-translate="th-service">Service Booked</th>
+                                            <th data-translate="th-scheduled-date">Scheduled Date</th>
+                                            <th data-translate="th-payment">Payment Method</th>
+                                            <th data-translate="th-booked-at">Booked At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="devoteeBookingsTableBody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Donations Tab Content -->
+                        <div class="profile-tab-content" id="profileTabDonations" style="display: none;">
+                            <h3 style="font-family: var(--font-heading); color: var(--primary-dark); font-size: 1.3rem; margin-bottom: 15px;">Your Annadanam Contributions</h3>
+                            <div class="table-responsive">
+                                <table class="bookings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Donation ID</th>
+                                            <th>Amount Given</th>
+                                            <th>Scheduled Date</th>
+                                            <th>Booked At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="devoteeDonationsTableBody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div> <!-- End of profile-view -->
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-about">
+                <h3 data-translate="footer-desc-title">Sri Venkateswara Swamy Temple</h3>
+                <p data-translate="footer-desc-text">Nallacheruvu. Dedicated to preserving spiritual heritage and
+                    serving devotees with devotion and care.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-translate="footer-links-title">Quick Links</h4>
+                <ul>
+                    <li><a href="#darshan" class="booking-link" data-translate="footer-links-darshan">Book Darshan</a>
+                    </li>
+                    <li><a href="#kalyanam" class="booking-link" data-translate="footer-links-kalyanam">Book
+                            Kalyanam</a></li>
+                    <li><a href="#gallery" data-translate="footer-links-gallery">Gallery</a></li>
+                    <li><a href="#social" data-translate="footer-links-contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4 data-translate="footer-contact-title">Contact Info</h4>
+                <p><i class="fa-solid fa-location-dot"></i> <span data-translate="footer-address">2-38, Mukkamala -
+                        Amalapuram Rd, Nedunuru, Andhra Pradesh 533241</span></p>
+                <p><i class="fa-solid fa-phone"></i> +91 12345 67890</p>
+                <p><i class="fa-solid fa-envelope"></i> info@sritemple.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-translate="footer-bottom">&copy; 2026 Sri Venkateswara Swamy Temple, Nallacheruvu. All Rights
+                Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Booking Modals -->
+
+    <!-- Darshan Booking Modal -->
+    <div id="darshanModal" class="modal-overlay" style="display: none;">
+        <div class="booking-modal-card">
+            <button class="modal-close-btn" data-close-modal>&times;</button>
+            <div class="booking-modal-header">
+                <h2 data-translate="darshan-title">Book Darshan Tickets</h2>
+                <p data-translate="darshan-subtitle">Plan your visit by booking darshan tickets in advance for a smooth
+                    experience.</p>
+            </div>
+            <div class="booking-modal-tabs">
+                <button class="booking-modal-tab active" data-tab-type="book" data-service="darshan"
+                    data-translate="tab-book-new">Book New</button>
+                <button class="booking-modal-tab" data-tab-type="history" data-service="darshan"
+                    data-translate="tab-my-bookings">My Bookings</button>
+            </div>
+
+            <div class="booking-tab-content" id="darshanBookContent">
+                <div class="booking-card">
+                    <form id="darshanForm" class="booking-form">
+                        <div class="form-group">
+                            <label for="d-name" data-translate="d-lbl-name">Full Name</label>
+                            <input type="text" id="d-name" placeholder="Enter your full name"
+                                data-translate-attr="placeholder:d-ph-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="d-date" data-translate="d-lbl-date">Preferred Date</label>
+                            <input type="date" id="d-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="d-tickets" data-translate="d-lbl-tickets">Number of Tickets</label>
+                            <input type="number" id="d-tickets" min="1" max="10" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="d-type" data-translate="d-lbl-type">Darshan Type</label>
+                            <select id="d-type" required>
+                                <option value="" data-translate="d-opt-select">Select Type</option>
+                                <option value="free" data-translate="d-opt-free">Sarva Darshanam (Free)</option>
+                                <option value="special" data-translate="d-opt-special">Special Entry Darshanam (₹300)
+                                </option>
+                                <option value="vip" data-translate="d-opt-vip">VIP Break Darshan (₹500)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="d-payment" data-translate="form-payment">Payment Method</label>
+                            <select id="d-payment" required>
+                                <option value="" data-translate="opt-select-payment">Select Payment Method</option>
+                                <option value="upi">UPI (GPay / PhonePe / Paytm)</option>
+                                <option value="card">Credit / Debit Card</option>
+                                <option value="netbanking">Net Banking</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-translate="d-btn-submit">Proceed to
+                            Book</button>
+                        <div class="form-message" id="darshanMessage"></div>
+                    </form>
+                    <div class="booking-info">
+                        <h3 data-translate="d-guidelines-title">Important Guidelines</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-check-circle"></i> <span data-translate="d-guide-1">Please carry a
+                                    valid ID proof.</span></li>
+                            <li><i class="fa-solid fa-check-circle"></i> <span data-translate="d-guide-2">Traditional
+                                    dress code is mandatory.</span></li>
+                            <li><i class="fa-solid fa-check-circle"></i> <span data-translate="d-guide-3">Report 30
+                                    minutes before your allotted time.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-tab-content" id="darshanHistoryContent" style="display: none;">
+                <div class="my-bookings-list" id="myDarshanBookingsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kalyanam Booking Modal -->
+    <div id="kalyanamModal" class="modal-overlay" style="display: none;">
+        <div class="booking-modal-card dark-modal">
+            <button class="modal-close-btn" data-close-modal>&times;</button>
+            <div class="booking-modal-header">
+                <h2 data-translate="kalyanam-title">Special Kalyanam & Poojas</h2>
+                <p data-translate="kalyanam-subtitle">Participate in sacred rituals and receive divine blessings.</p>
+            </div>
+            <div class="booking-modal-tabs">
+                <button class="booking-modal-tab active" data-tab-type="book" data-service="kalyanam"
+                    data-translate="tab-book-new">Book New</button>
+                <button class="booking-modal-tab" data-tab-type="history" data-service="kalyanam"
+                    data-translate="tab-my-bookings">My Bookings</button>
+            </div>
+
+            <div class="booking-tab-content" id="kalyanamBookContent">
+                <div class="booking-card dark-card">
+                    <form id="kalyanamForm" class="booking-form">
+                        <div class="form-group">
+                            <label for="k-name" data-translate="k-lbl-name">Primary Devotee Name</label>
+                            <input type="text" id="k-name" placeholder="Enter full name"
+                                data-translate-attr="placeholder:k-ph-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="k-gotra" data-translate="k-lbl-gotra">Gotram</label>
+                            <input type="text" id="k-gotra" placeholder="Enter your Gotram"
+                                data-translate-attr="placeholder:k-ph-gotra" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="k-email" data-translate="k-lbl-email">Email Address</label>
+                            <input type="email" id="k-email" placeholder="Enter your email address"
+                                data-translate-attr="placeholder:k-ph-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="k-date" data-translate="k-lbl-date">Pooja Date</label>
+                            <select id="k-date" required>
+                                <option value="" data-translate="k-opt-select-date">Select Available Date</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="k-type" data-translate="k-lbl-type">Seva Name</label>
+                            <select id="k-type" required>
+                                <option value="" data-translate="k-opt-select">Select Seva</option>
+                                <option value="kalyanotsavam" data-translate="k-opt-kalyanam">Kalyanotsavam (₹1000)
+                                </option>
+                                <option value="suprabhatam" data-translate="k-opt-suprabhatam">Suprabhatam (₹500)
+                                </option>
+                                <option value="archana" data-translate="k-opt-archana">Sahasranama Archana (₹200)
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="k-payment" data-translate="form-payment">Payment Method</label>
+                            <select id="k-payment" required>
+                                <option value="" data-translate="opt-select-payment">Select Payment Method</option>
+                                <option value="upi">UPI (GPay / PhonePe / Paytm)</option>
+                                <option value="card">Credit / Debit Card</option>
+                                <option value="netbanking">Net Banking</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-translate="k-btn-submit">Book
+                            Seva</button>
+                        <div class="form-message" id="kalyanamMessage"></div>
+                    </form>
+                    <div class="booking-info">
+                        <h3 data-translate="k-guidelines-title">Important Guidelines</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-circle-info"></i> <span data-translate="k-guide-1">If you wish to
+                                    sit for Sri Venkateswara Swamy Kalyanam, please inform us a day before or at any
+                                    time.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-tab-content" id="kalyanamHistoryContent" style="display: none;">
+                <div class="my-bookings-list" id="myKalyanamBookingsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marriage Stage Booking Modal -->
+    <div id="marriageModal" class="modal-overlay" style="display: none;">
+        <div class="booking-modal-card">
+            <button class="modal-close-btn" data-close-modal>&times;</button>
+            <div class="booking-modal-header">
+                <h2 data-translate="marriage-title">Marriage Stage Booking</h2>
+                <p data-translate="marriage-subtitle">Book a sacred stage for your auspicious marriage ceremony.</p>
+            </div>
+            <div class="booking-modal-tabs">
+                <button class="booking-modal-tab active" data-tab-type="book" data-service="marriage"
+                    data-translate="tab-book-new">Book New</button>
+                <button class="booking-modal-tab" data-tab-type="history" data-service="marriage"
+                    data-translate="tab-my-bookings">My Bookings</button>
+            </div>
+
+            <div class="booking-tab-content" id="marriageBookContent">
+                <div class="booking-card">
+                    <form id="marriageForm" class="booking-form">
+                        <div class="form-group">
+                            <label for="m-name" data-translate="m-lbl-name">Bride & Groom Names</label>
+                            <input type="text" id="m-name" placeholder="Enter names"
+                                data-translate-attr="placeholder:m-ph-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="m-date" data-translate="m-lbl-date">Marriage Date</label>
+                            <input type="date" id="m-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="m-type" data-translate="m-lbl-type">Stage Type</label>
+                            <select id="m-type" required>
+                                <option value="" data-translate="m-opt-select">Select Stage Type</option>
+                                <option value="individual" data-translate="m-opt-individual">Individual Stage</option>
+                                <option value="common" data-translate="m-opt-common">Common Stage (Fixed Stage)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="m-payment" data-translate="form-payment">Payment Method</label>
+                            <select id="m-payment" required>
+                                <option value="" data-translate="opt-select-payment">Select Payment Method</option>
+                                <option value="upi">UPI (GPay / PhonePe / Paytm)</option>
+                                <option value="card">Credit / Debit Card</option>
+                                <option value="netbanking">Net Banking</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-translate="m-btn-submit">Book
+                            Stage</button>
+                        <div class="form-message" id="marriageMessage"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="booking-tab-content" id="marriageHistoryContent" style="display: none;">
+                <div class="my-bookings-list" id="myMarriageBookingsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Annadanam Booking Modal -->
+    <div id="annadanamModal" class="modal-overlay" style="display: none;">
+        <div class="booking-modal-card dark-modal">
+            <button class="modal-close-btn" data-close-modal>&times;</button>
+            <div class="booking-modal-header">
+                <h2 data-translate="annadanam-title">Annadanam (Sacred Feeding)</h2>
+                <p data-translate="annadanam-subtitle">Donate for Annadanam (conducted during Saturday lunch, and on any
+                    date when Kalyanam is performed) and receive immense blessings.</p>
+            </div>
+            <div class="booking-modal-tabs">
+                <button class="booking-modal-tab active" data-tab-type="book" data-service="annadanam"
+                    data-translate="tab-book-new">Book New</button>
+                <button class="booking-modal-tab" data-tab-type="history" data-service="annadanam"
+                    data-translate="tab-my-bookings">My Bookings</button>
+            </div>
+
+            <div class="booking-tab-content" id="annadanamBookContent">
+                <div class="booking-card dark-card">
+                    <form id="annadanamForm" class="booking-form">
+                        <div class="form-group">
+                            <label for="a-name" data-translate="a-lbl-name">Donor Name</label>
+                            <input type="text" id="a-name" placeholder="Enter your name"
+                                data-translate-attr="placeholder:a-ph-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="a-amount" data-translate="a-lbl-amount">Donation Amount (₹)</label>
+                            <input type="number" id="a-amount" placeholder="Enter amount (Min ₹50)"
+                                data-translate-attr="placeholder:a-ph-amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="a-date" data-translate="a-lbl-date">Preferred Saturday (Optional)</label>
+                            <input type="date" id="a-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="a-payment" data-translate="form-payment">Payment Method</label>
+                            <select id="a-payment" required>
+                                <option value="" data-translate="opt-select-payment">Select Payment Method</option>
+                                <option value="upi">UPI (GPay / PhonePe / Paytm)</option>
+                                <option value="card">Credit / Debit Card</option>
+                                <option value="netbanking">Net Banking</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-translate="a-btn-submit">Donate
+                            Now</button>
+                        <div class="form-message" id="annadanamMessage"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="booking-tab-content" id="annadanamHistoryContent" style="display: none;">
+                <div class="my-bookings-list" id="myAnnadanamBookingsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal-overlay" style="display: none;">
+        <div class="booking-modal-card" style="max-width: 450px;">
+            <button id="closeAuthModal" class="modal-close-btn">&times;</button>
+            <div class="booking-modal-header" style="text-align: center; margin-bottom: 25px; padding-right: 0;">
+                <h2 data-translate="auth-title" style="font-size: 1.6rem; color: var(--primary-color);">Devotee Portal
+                    Login</h2>
+                <p data-translate="auth-subtitle" style="font-size: 0.88rem; color: #666; margin-top: 5px;">Access your
+                    digital darshan bookings and temple seva logs.</p>
+            </div>
+
+            <!-- Google Sign In Button -->
+            <div class="google-auth-container"
+                style="margin-bottom: 20px; display: flex; justify-content: center; width: 100%;">
+                <div id="googleBtnContainer" style="width: 100%;"></div>
+            </div>
+
+            <!-- OR Divider -->
+            <div class="auth-divider">
+                <span data-translate="auth-divider-or">OR</span>
+            </div>
+
+            <!-- Email OTP Form -->
+            <form id="authForm" class="auth-form" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label for="auth-email" data-translate="auth-lbl-email">Email Address</label>
+                    <div class="input-with-btn">
+                        <input type="email" id="auth-email" required placeholder="Enter your email address"
+                            data-translate-attr="placeholder:auth-ph-email">
+                        <button type="button" id="authSendOtpBtn" class="btn-send-otp"
+                            data-translate="auth-btn-send-otp">Request OTP</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="auth-otp" data-translate="auth-lbl-otp">One-Time Password (OTP)</label>
+                    <input type="text" id="auth-otp" required placeholder="Enter 6-digit verification code"
+                        data-translate-attr="placeholder:auth-ph-otp" pattern="[0-9]{6}" maxlength="6">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="btn btn-primary btn-full"
+                    data-translate="auth-btn-login">Verify & Sign In</button>
+                <div id="authMessage" class="form-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating Devotional Audio Player Widget -->
+    <div id="floating-audio-widget" class="floating-audio-widget paused">
+        <div class="widget-content">
+            <div class="music-wave" id="widget-wave">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="widget-info">
+                <span id="widget-track-title" class="widget-title">Om Namo Venkatesaya Chant</span>
+                <span id="widget-track-status" class="widget-status">Chant Paused</span>
+            </div>
+            <button id="widget-play-btn" class="widget-control-btn"><i class="fa-solid fa-play"></i></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
